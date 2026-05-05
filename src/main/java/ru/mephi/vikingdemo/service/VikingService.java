@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.mephi.vikingdemo.model.Viking;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
@@ -31,6 +32,10 @@ public class VikingService {
     
     public List<Viking> findAll() {
         return vikingStorage.findAll();
+    }
+
+    public Map<Integer, Viking> findAllWithIds() {
+        return vikingStorage.findAllWithIds();
     }
 
     public Viking createRandomViking() {
@@ -64,5 +69,19 @@ public class VikingService {
         List<Viking> vikings = findTallerThan(height);
         if (vikings.isEmpty()) return null;
         return vikings.get(random.nextInt(vikings.size()));
+    }
+
+    public Viking findMaxIdViking() {
+        return findAllWithIds().entrySet().stream()
+                .max(Map.Entry.comparingByKey())
+                .map(Map.Entry::getValue)
+                .orElse(null);
+    }
+
+    public List<Viking> findEvenIdVikings() {
+        return findAllWithIds().entrySet().stream()
+                .filter(entry -> entry.getKey() % 2 == 0)
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList());
     }
 }

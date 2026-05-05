@@ -107,4 +107,26 @@ public class VikingController {
         System.out.println("POST api/vikings/post called");
         vikingListener.testAdd();
     }
+
+    @GetMapping("/ids/max")
+    @Operation(summary = "Найти последнюю запись (max ID)", 
+            operationId = "getMaxIdViking")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Запись успешно найдена")
+    })
+    public Viking getMaxIdViking() {
+        System.out.println("GET /api/vikings/ids/max called");
+        return vikingService.findMaxIdViking();
+    }
+
+    @GetMapping("/ids/even")
+    @Operation(summary = "Получить все записи с четными ID", 
+            operationId = "getEvenIdVikings")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Список успешно получен")
+    })
+    public List<Viking> getEvenIdVikings() {
+        System.out.println("GET /api/vikings/ids/even called");
+        return vikingService.findEvenIdVikings();
+    }
 }

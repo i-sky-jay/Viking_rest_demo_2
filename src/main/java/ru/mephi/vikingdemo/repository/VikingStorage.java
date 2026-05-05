@@ -44,6 +44,10 @@ public class VikingStorage {
     }
 
     public List<Viking> findAll() {
+        return findAllWithIds().values().stream().toList();
+    }
+
+    public Map<Integer, Viking> findAllWithIds() {
         List<VikingEntity> vikingEntities = vikingRepository.findAll();
         List<EquipmentItemEntity> equipmentEntities = equipmentItemRepository.findAll();
 
@@ -51,11 +55,13 @@ public class VikingStorage {
                 .collect(Collectors.groupingBy(EquipmentItemEntity::vikingId));
 
         return vikingEntities.stream()
-                .map(vikingEntity -> vikingMapper.toViking(
-                        vikingEntity,
-                        equipmentByVikingId.getOrDefault(vikingEntity.id(), List.of())
-                ))
-                .toList();
+                .collect(Collectors.toMap(
+                        VikingEntity::id,
+                        vikingEntity -> vikingMapper.toViking(
+                                vikingEntity,
+                                equipmentByVikingId.getOrDefault(vikingEntity.id(), List.of())
+                        )
+                ));
     }
 
     @Transactional
