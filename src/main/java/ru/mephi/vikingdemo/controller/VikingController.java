@@ -75,6 +75,17 @@ public class VikingController {
         return vikingStatService.getCountByAppearance(beardStyle, hairColor);
     }
 
+    @GetMapping("/stats/count-by-axes")
+    @Operation(summary = "Подсчитать викингов с 1 или 2 топорами", 
+            operationId = "getCountByAxes")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Количество успешно получено")
+    })
+    public long getCountByAxes() {
+        System.out.println("GET /api/vikings/stats/count-by-axes called");
+        return vikingStatService.getCountByAxes();
+    }
+
     @GetMapping("/test")
     @Operation(summary = "Получить список тестовых викингов", 
             operationId = "getTest")

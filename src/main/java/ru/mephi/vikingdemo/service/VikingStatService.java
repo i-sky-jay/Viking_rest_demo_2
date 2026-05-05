@@ -4,14 +4,17 @@ import org.springframework.stereotype.Service;
 import ru.mephi.vikingdemo.model.BeardStyle;
 import ru.mephi.vikingdemo.model.HairColor;
 import ru.mephi.vikingdemo.repository.VikingRepository;
+import ru.mephi.vikingdemo.repository.VikingStorage;
 
 @Service
 public class VikingStatService {
 
     private final VikingRepository vikingRepository;
+    private final VikingStorage vikingStorage;
 
-    public VikingStatService(VikingRepository vikingRepository) {
+    public VikingStatService(VikingRepository vikingRepository, VikingStorage vikingStorage) {
         this.vikingRepository = vikingRepository;
+        this.vikingStorage = vikingStorage;
     }
 
     public long getCountByAge(
@@ -37,5 +40,9 @@ public class VikingStatService {
             HairColor hairColor
     ) {
         return vikingRepository.countByAppearance(beardStyle, hairColor);
+    }
+
+    public long getCountByAxes() {
+        return vikingStorage.countByAxes();
     }
 }

@@ -62,4 +62,17 @@ public class VikingStorage {
     public void deleteById(int id) {
         vikingRepository.deleteById(id);
     }
+
+    public long countByAxes() {
+        List<Viking> allVikings = findAll();
+
+        return allVikings.stream()
+                .filter(viking -> {
+                    long axeCount = viking.equipment().stream()
+                            .filter(item -> "Axe".equalsIgnoreCase(item.name()))
+                            .count();
+                    return axeCount == 1 || axeCount == 2;
+                })
+                .count();
+    }
 }
