@@ -128,4 +128,24 @@ public class VikingRepository {
                 .filter(ageFilter)
                 .count();
     }
+
+    public long countByAppearance(
+            BeardStyle beardStyle,
+            HairColor hairColor
+    ) {
+        List<VikingEntity> allVikings = findAll();
+
+        Predicate<VikingEntity> appearanceFilter = viking -> true;
+
+        if (beardStyle != null) {
+            appearanceFilter = appearanceFilter.and(v -> v.beardStyle() == beardStyle);
+        }
+        if (hairColor != null) {
+            appearanceFilter = appearanceFilter.and(v -> v.hairColor() == hairColor);
+        }
+
+        return allVikings.stream()
+                .filter(appearanceFilter)
+                .count();
+    }
 }

@@ -1,6 +1,8 @@
 package ru.mephi.vikingdemo.service;
 
 import org.springframework.stereotype.Service;
+import ru.mephi.vikingdemo.model.BeardStyle;
+import ru.mephi.vikingdemo.model.HairColor;
 import ru.mephi.vikingdemo.repository.VikingRepository;
 
 @Service
@@ -28,5 +30,12 @@ public class VikingStatService {
                 outOfRangeStart,
                 outOfRangeEnd
         );
+    }
+
+    public long getCountByAppearance(
+            BeardStyle beardStyle,
+            HairColor hairColor
+    ) {
+        return vikingRepository.countByAppearance(beardStyle, hairColor);
     }
 }

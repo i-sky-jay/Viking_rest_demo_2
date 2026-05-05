@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.mephi.vikingdemo.model.BeardStyle;
+import ru.mephi.vikingdemo.model.HairColor;
 import ru.mephi.vikingdemo.model.Viking;
 import ru.mephi.vikingdemo.service.VikingService;
 import ru.mephi.vikingdemo.service.VikingStatService;
@@ -57,6 +59,20 @@ public class VikingController {
     ) {
         System.out.println("GET /api/vikings/stats/count-by-age called");
         return vikingStatService.getCountByAge(lessThan, greaterThan, inRangeStart, inRangeEnd, outOfRangeStart, outOfRangeEnd);
+    }
+
+    @GetMapping("/stats/count-by-appearance")
+    @Operation(summary = "Подсчитать викингов по внешности", 
+            operationId = "getCountByAppearance")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Количество успешно получено")
+    })
+    public long getCountByAppearance(
+            @RequestParam(required = false) BeardStyle beardStyle,
+            @RequestParam(required = false) HairColor hairColor
+    ) {
+        System.out.println("GET /api/vikings/stats/count-by-appearance called");
+        return vikingStatService.getCountByAppearance(beardStyle, hairColor);
     }
 
     @GetMapping("/test")
