@@ -54,6 +54,22 @@ public class VikingService {
         vikingStorage.deleteById(id);
     }
 
+    public void addViking(Viking viking) {
+        vikingStorage.save(viking);
+    }
+
+    public void deleteViking(String vikingName) {
+        vikingStorage.deleteByName(vikingName);
+    }
+
+    public Viking findViking(String vikingName) {
+        return vikingStorage.findByName(vikingName);
+    }
+
+    public void updateViking(Viking viking) {
+        vikingStorage.update(viking);
+    }
+
     public List<Viking> findTallerThan(int height) {
         return findAll().stream()
                 .filter(v -> v.heightCm() > height)

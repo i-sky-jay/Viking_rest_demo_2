@@ -25,6 +25,16 @@ public class VikingTableModel extends AbstractTableModel {
         fireTableDataChanged();
     }
 
+    public void removeViking(String vikingName) {
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).name().equals(vikingName)) {
+                data.remove(i);
+                fireTableRowsDeleted(i, i);
+                break;
+            }
+        }
+    }
+
     @Override
     public int getRowCount() {
         return data.size();

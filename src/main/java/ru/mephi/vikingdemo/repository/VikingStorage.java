@@ -69,6 +69,27 @@ public class VikingStorage {
         vikingRepository.deleteById(id);
     }
 
+    @Transactional
+    public void deleteByName(String name) {
+        findAllWithIds().entrySet().stream()
+                .filter(e -> e.getValue().name().equals(name))
+                .findFirst()
+                .ifPresent(e -> deleteById(e.getKey()));
+    }
+
+    public Viking findByName(String name) {
+        return findAll().stream()
+                .filter(v -> v.name().equals(name))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Transactional
+    public void update(Viking viking) {
+        deleteByName(viking.name());
+        save(viking);
+    }
+
     public long countByAxes() {
         List<Viking> allVikings = findAll();
 

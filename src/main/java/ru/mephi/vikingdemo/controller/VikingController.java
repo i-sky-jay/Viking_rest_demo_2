@@ -4,11 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.mephi.vikingdemo.model.BeardStyle;
 import ru.mephi.vikingdemo.model.HairColor;
 import ru.mephi.vikingdemo.model.Viking;
@@ -41,6 +37,43 @@ public class VikingController {
     public List<Viking> getAllVikings() {
         System.out.println("GET /api/vikings called");
         return vikingService.findAll();
+    }
+
+    @PostMapping
+    @Operation(summary = "Создать конкретного викинга", 
+            operationId = "addViking")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Викинг успешно создан")
+    })
+    public void addViking(@RequestBody Viking viking) {
+        System.out.println("POST /api/vikings called");
+        vikingListener.addViking(viking);
+    }
+
+    @PutMapping
+    @Operation(summary = "Обновить сведения викинга",
+        operationId = "updateViking")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Сведения о викинге обновлены")
+    })
+    public void updateViking(@RequestBody Viking viking) {
+        System.out.println("PUT /api/vikings called");
+        Viking foundViking = vikingListener.findViking(viking.name());
+
+        if (foundViking != null) {
+            vikingListener.updateViking(viking);
+        }
+    }
+
+    @DeleteMapping
+    @Operation(summary = "Удалить викинга из таблицы",
+        operationId = "deleteViking")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Викинг удален")
+    })
+    public void deleteViking(@RequestParam("vikingName") String vikingName) {
+        System.out.println("DELETE /api/vikings called");
+        vikingListener.deleteViking(vikingName);
     }
 
     @GetMapping("/stats/count-by-age")
@@ -103,7 +136,7 @@ public class VikingController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Викинг успешно создан")
     })
-    public void addViking(){
+    public void addRandomViking(){
         System.out.println("POST api/vikings/post called");
         vikingListener.testAdd();
     }

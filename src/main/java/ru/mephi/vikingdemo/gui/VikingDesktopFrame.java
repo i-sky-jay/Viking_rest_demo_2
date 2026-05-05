@@ -88,6 +88,15 @@ public class VikingDesktopFrame extends JFrame {
         tableModel.addViking(viking);
     }
 
+    public void deleteViking(String vikingName) {
+        tableModel.removeViking(vikingName);
+    }
+
+    public void updateViking(Viking viking) {
+        tableModel.removeViking(viking.name());
+        tableModel.addViking(viking);
+    }
+
     private void onInit() {
         List<Viking> all = vikingService.findAll();
         if (!all.isEmpty()){

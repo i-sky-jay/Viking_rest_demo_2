@@ -25,6 +25,51 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Viking'
+    post:
+      tags:
+        - Vikings
+      summary: Создать конкретного викинга
+      description: Создать нового викинга с заданными параметрами
+      operationId: addViking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Viking'
+      responses:
+        '200':
+          description: Викинг успешно создан
+    put:
+      tags:
+        - Vikings
+      summary: Обновить сведения викинга
+      description: Обновить данные существующего викинга
+      operationId: updateViking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Viking'
+      responses:
+        '200':
+          description: Сведения о викинге обновлены
+    delete:
+      tags:
+        - Vikings
+      summary: Удалить викинга из таблицы
+      description: Удалить викинга по его имени
+      operationId: deleteViking
+      parameters:
+        - name: vikingName
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Викинг удален
 
   /api/vikings/test:
     get:
