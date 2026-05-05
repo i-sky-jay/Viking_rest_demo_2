@@ -9,6 +9,7 @@ import ru.mephi.vikingdemo.model.BeardStyle;
 import ru.mephi.vikingdemo.model.EquipmentItem;
 import ru.mephi.vikingdemo.model.HairColor;
 import ru.mephi.vikingdemo.model.Viking;
+import ru.mephi.vikingdemo.model.VikingInterface;
 import java.util.Locale;
 
 @Component
@@ -17,7 +18,7 @@ public class VikingFactory {
     private final Faker faker = new Faker(Locale.of("nor"));
     private final Random random = new Random();
 
-    public Viking createRandomViking() {
+    public VikingInterface createRandomViking() {
         return new Viking(
                 faker.name().firstName(),
                 18 + random.nextInt(43),

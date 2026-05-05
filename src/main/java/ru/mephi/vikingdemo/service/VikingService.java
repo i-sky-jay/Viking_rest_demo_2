@@ -2,24 +2,23 @@ package ru.mephi.vikingdemo.service;
 
 import org.springframework.stereotype.Service;
 import ru.mephi.vikingdemo.model.Viking;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
+import ru.mephi.vikingdemo.model.VikingInterface;
 import ru.mephi.vikingdemo.model.HairColor;
 import ru.mephi.vikingdemo.repository.VikingStorage;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+
 @Service
 public class VikingService {
-    // каждый раз при изменении создаётся новая копия списка 
 
     private final VikingFactory vikingFactory;
     private final VikingStorage vikingStorage;
     private final Random random = new Random();
-    
     
     @Autowired
     public VikingService(
@@ -39,9 +38,18 @@ public class VikingService {
     }
 
     public Viking createRandomViking() {
-        Viking viking = vikingFactory.createRandomViking();
-        return vikingStorage.save(viking);
+        VikingInterface viking = vikingFactory.createRandomViking();
+        return vikingStorage.save((Viking) viking);
     }
+
+    public List<Viking> createRandomVikings(int count) {
+        List<Viking> created = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            created.add(createRandomViking());
+        }
+        return created;
+    }
+
     public void deleteById(int id) {
         vikingStorage.deleteById(id);
     }

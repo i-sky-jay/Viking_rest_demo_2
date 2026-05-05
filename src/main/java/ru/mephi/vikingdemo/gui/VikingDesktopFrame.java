@@ -6,6 +6,7 @@ import ru.mephi.vikingdemo.service.VikingService;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -44,9 +45,13 @@ public class VikingDesktopFrame extends JFrame {
         JButton openFiltersButton = new JButton("Open Filters");
         openFiltersButton.addActionListener(event -> onOpenFilters());
 
+        JButton massCreateButton = new JButton("Mass create vikings");
+        massCreateButton.addActionListener(event -> onMassCreateVikings());
+
         JPanel bottomPanel = new JPanel();
         bottomPanel.add(createButton);
         bottomPanel.add(openFiltersButton);
+        bottomPanel.add(massCreateButton);
         add(bottomPanel, BorderLayout.SOUTH);
         
         onInit();
@@ -55,6 +60,23 @@ public class VikingDesktopFrame extends JFrame {
     private void onCreateViking() {
         Viking viking = vikingService.createRandomViking();
         tableModel.addViking(viking);
+    }
+
+    private void onMassCreateVikings() {
+        String input = JOptionPane.showInputDialog(this, "Enter number of vikings to create:");
+        if (input != null && !input.isEmpty()) {
+            try {
+                int count = Integer.parseInt(input);
+                if (count > 0) {
+                    List<Viking> vikings = vikingService.createRandomVikings(count);
+                    for (Viking v : vikings) {
+                        tableModel.addViking(v);
+                    }
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Please enter a valid number", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     private void onOpenFilters() {

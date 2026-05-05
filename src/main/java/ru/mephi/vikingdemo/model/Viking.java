@@ -19,5 +19,5 @@ public record Viking(
         BeardStyle beardStyle,
         @ArraySchema(schema = @Schema(implementation = EquipmentItem.class), arraySchema = @Schema(description = "Снаряжение викинга"))
         List<EquipmentItem> equipment
-) {
+) implements VikingInterface {
 }
