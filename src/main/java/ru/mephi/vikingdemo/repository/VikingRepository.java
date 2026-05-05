@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 @Repository
 public class VikingRepository {
@@ -96,5 +97,35 @@ public class VikingRepository {
 
     public void deleteAll() {
         jdbcTemplate.update("delete from vikings");
+    }
+
+    public long countByAge(
+            Integer lessThan,
+            Integer greaterThan,
+            Integer inRangeStart,
+            Integer inRangeEnd,
+            Integer outOfRangeStart,
+            Integer outOfRangeEnd
+    ) {
+        List<VikingEntity> allVikings = findAll();
+
+        Predicate<VikingEntity> ageFilter = viking -> true;
+
+        if (lessThan != null) {
+            ageFilter = ageFilter.and(v -> v.age() < lessThan);
+        }
+        if (greaterThan != null) {
+            ageFilter = ageFilter.and(v -> v.age() > greaterThan);
+        }
+        if (inRangeStart != null && inRangeEnd != null) {
+            ageFilter = ageFilter.and(v -> v.age() >= inRangeStart && v.age() <= inRangeEnd);
+        }
+        if (outOfRangeStart != null && outOfRangeEnd != null) {
+            ageFilter = ageFilter.and(v -> v.age() < outOfRangeStart || v.age() > outOfRangeEnd);
+        }
+
+        return allVikings.stream()
+                .filter(ageFilter)
+                .count();
     }
 }

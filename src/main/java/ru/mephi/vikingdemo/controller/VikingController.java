@@ -5,13 +5,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.mephi.vikingdemo.model.Viking;
 import ru.mephi.vikingdemo.service.VikingService;
+import ru.mephi.vikingdemo.service.VikingStatService;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @RequestMapping("/api/vikings")
@@ -19,13 +21,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class VikingController {
 
     private final VikingService vikingService;
+    private final VikingStatService vikingStatService;
     private VikingListener vikingListener;
 
-    public VikingController(VikingService vikingService, VikingListener vikingListener) {
+    public VikingController(VikingService vikingService, VikingStatService vikingStatService, VikingListener vikingListener) {
         this.vikingService = vikingService;
+        this.vikingStatService = vikingStatService;
         this.vikingListener = vikingListener;
     }
-    
+
     @GetMapping
     @Operation(summary = "Получить список созданных викингов", 
             operationId = "getAllVikings")
@@ -35,6 +39,24 @@ public class VikingController {
     public List<Viking> getAllVikings() {
         System.out.println("GET /api/vikings called");
         return vikingService.findAll();
+    }
+
+    @GetMapping("/stats/count-by-age")
+    @Operation(summary = "Подсчитать викингов по возрасту", 
+            operationId = "getCountByAge")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Количество успешно получено")
+    })
+    public long getCountByAge(
+            @RequestParam(required = false) Integer lessThan,
+            @RequestParam(required = false) Integer greaterThan,
+            @RequestParam(required = false) Integer inRangeStart,
+            @RequestParam(required = false) Integer inRangeEnd,
+            @RequestParam(required = false) Integer outOfRangeStart,
+            @RequestParam(required = false) Integer outOfRangeEnd
+    ) {
+        System.out.println("GET /api/vikings/stats/count-by-age called");
+        return vikingStatService.getCountByAge(lessThan, greaterThan, inRangeStart, inRangeEnd, outOfRangeStart, outOfRangeEnd);
     }
 
     @GetMapping("/test")
