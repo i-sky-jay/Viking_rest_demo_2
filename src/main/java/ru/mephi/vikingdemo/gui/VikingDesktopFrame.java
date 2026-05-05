@@ -41,8 +41,12 @@ public class VikingDesktopFrame extends JFrame {
         JButton createButton = new JButton("Create random viking");
         createButton.addActionListener(event -> onCreateViking());
 
+        JButton openFiltersButton = new JButton("Open Filters");
+        openFiltersButton.addActionListener(event -> onOpenFilters());
+
         JPanel bottomPanel = new JPanel();
         bottomPanel.add(createButton);
+        bottomPanel.add(openFiltersButton);
         add(bottomPanel, BorderLayout.SOUTH);
         
         onInit();
@@ -51,6 +55,11 @@ public class VikingDesktopFrame extends JFrame {
     private void onCreateViking() {
         Viking viking = vikingService.createRandomViking();
         tableModel.addViking(viking);
+    }
+
+    private void onOpenFilters() {
+        VikingFilterFrame filterFrame = new VikingFilterFrame(vikingService);
+        filterFrame.setVisible(true);
     }
     
     public void addNewViking(Viking viking){
