@@ -42,7 +42,132 @@ paths:
                 type: array
                 items: 
                   type: string
-                  
+
+  /api/vikings/post:
+    post:
+      tags:
+        - Vikings
+      summary: Создать викинга со случайными параметрами
+      description: Создать викинга со случайными параметрами
+      operationId: post
+      responses:
+        '200':
+          description: Викинг успешно создан
+
+  /api/vikings/stats/count-by-age:
+    get:
+      tags:
+        - Count
+      summary: Подсчитать викингов по возрасту
+      description: Подсчитать количество викингов, соответствующих заданным критериям возраста
+      operationId: getCountByAge
+      parameters:
+        - name: lessThan
+          in: query
+          schema:
+            type: integer
+        - name: greaterThan
+          in: query
+          schema:
+            type: integer
+        - name: inRangeStart
+          in: query
+          schema:
+            type: integer
+        - name: inRangeEnd
+          in: query
+          schema:
+            type: integer
+        - name: outOfRangeStart
+          in: query
+          schema:
+            type: integer
+        - name: outOfRangeEnd
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Количество успешно получено
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+
+  /api/vikings/stats/count-by-appearance:
+    get:
+      tags:
+        - Count
+      summary: Подсчитать викингов по внешности
+      description: Подсчитать количество викингов с определенным стилем бороды или цветом волос
+      operationId: getCountByAppearance
+      parameters:
+        - name: beardStyle
+          in: query
+          schema:
+            $ref: '#/components/schemas/BeardStyle'
+        - name: hairColor
+          in: query
+          schema:
+            $ref: '#/components/schemas/HairColor'
+      responses:
+        '200':
+          description: Количество успешно получено
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+
+  /api/vikings/stats/count-by-axes:
+    get:
+      tags:
+        - Count
+      summary: Подсчитать викингов с 1 или 2 топорами
+      description: Подсчитать количество викингов, имеющих в снаряжении один или два топора
+      operationId: getCountByAxes
+      responses:
+        '200':
+          description: Количество успешно получено
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+
+  /api/vikings/ids/max:
+    get:
+      tags:
+        - IDs
+      summary: Найти последнюю запись (max ID)
+      description: Найти и вернуть викинга с максимальным идентификатором
+      operationId: getMaxIdViking
+      responses:
+        '200':
+          description: Запись успешно найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Viking'
+
+  /api/vikings/ids/even:
+    get:
+      tags:
+        - IDs
+      summary: Получить все записи с четными ID
+      description: Получить список всех викингов, имеющих четные идентификаторы
+      operationId: getEvenIdVikings
+      responses:
+        '200':
+          description: Список успешно получен
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Viking'
+
 components:
   schemas:
     Viking:
