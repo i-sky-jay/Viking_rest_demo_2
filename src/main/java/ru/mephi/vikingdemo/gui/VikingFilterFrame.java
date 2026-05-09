@@ -1,7 +1,7 @@
 package ru.mephi.vikingdemo.gui;
 
 import ru.mephi.vikingdemo.model.Viking;
-import ru.mephi.vikingdemo.service.VikingService;
+import ru.mephi.vikingdemo.service.VikingFilterService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,11 +10,11 @@ import java.util.List;
 
 public class VikingFilterFrame extends JFrame {
 
-    private final VikingService vikingService;
+    private final VikingFilterService vikingFilterService;
     private final VikingTableModel tableModel = new VikingTableModel();
 
-    public VikingFilterFrame(VikingService vikingService) {
-        this.vikingService = vikingService;
+    public VikingFilterFrame(VikingFilterService vikingFilterService) {
+        this.vikingFilterService = vikingFilterService;
 
         setTitle("Viking Filters");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -30,7 +30,7 @@ public class VikingFilterFrame extends JFrame {
         JButton redBeardedBtn = new JButton("Рыжебородые по возрасту (desc)");
 
         randomTallerBtn.addActionListener(e -> {
-            Viking v = vikingService.getRandomTallerThan(180);
+            Viking v = vikingFilterService.getRandomTallerThan(180);
             if (v != null) {
                 tableModel.setVikings(Collections.singletonList(v));
             } else {
@@ -40,7 +40,7 @@ public class VikingFilterFrame extends JFrame {
         });
 
         legendaryBtn.addActionListener(e -> {
-            List<Viking> vikings = vikingService.findWithLegendaryEquipment();
+            List<Viking> vikings = vikingFilterService.findWithLegendaryEquipment();
             tableModel.setVikings(vikings);
             if (vikings.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Викингов с легендарным снаряжением не найдено");
@@ -48,7 +48,7 @@ public class VikingFilterFrame extends JFrame {
         });
 
         redBeardedBtn.addActionListener(e -> {
-            List<Viking> vikings = vikingService.findRedBeardedSortedByAgeDesc();
+            List<Viking> vikings = vikingFilterService.findRedBeardedSortedByAgeDesc();
             tableModel.setVikings(vikings);
             if (vikings.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Рыжебородых викингов не найдено");

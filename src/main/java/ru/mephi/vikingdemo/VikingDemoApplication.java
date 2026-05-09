@@ -8,6 +8,7 @@ import ru.mephi.vikingdemo.gui.VikingDesktopFrame;
 import javax.swing.SwingUtilities;
 import ru.mephi.vikingdemo.controller.VikingListener;
 import ru.mephi.vikingdemo.service.VikingService;
+import ru.mephi.vikingdemo.service.VikingFilterService;
 
 @SpringBootApplication
 public class VikingDemoApplication {
@@ -20,9 +21,10 @@ public class VikingDemoApplication {
         ConfigurableApplicationContext context = app.run(args);
 
         VikingService vikingService = context.getBean(VikingService.class);
+        VikingFilterService vikingFilterService = context.getBean(VikingFilterService.class);
         VikingListener vikingListener = context.getBean(VikingListener.class);    
         SwingUtilities.invokeLater(() -> {
-            VikingDesktopFrame frame = new VikingDesktopFrame(vikingService);
+            VikingDesktopFrame frame = new VikingDesktopFrame(vikingService, vikingFilterService);
             vikingListener.setGui(frame);
             frame.setVisible(true);
         });

@@ -2,6 +2,7 @@ package ru.mephi.vikingdemo.gui;
 
 import ru.mephi.vikingdemo.model.Viking;
 import ru.mephi.vikingdemo.service.VikingService;
+import ru.mephi.vikingdemo.service.VikingFilterService;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,10 +21,12 @@ import java.util.List;
 public class VikingDesktopFrame extends JFrame {
 
     private final VikingService vikingService;
+    private final VikingFilterService vikingFilterService;
     private final VikingTableModel tableModel = new VikingTableModel();
 
-    public VikingDesktopFrame(VikingService vikingService) {
+    public VikingDesktopFrame(VikingService vikingService, VikingFilterService vikingFilterService) {
         this.vikingService = vikingService;
+        this.vikingFilterService = vikingFilterService;
 
         setTitle("Viking Demo");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,7 +83,7 @@ public class VikingDesktopFrame extends JFrame {
     }
 
     private void onOpenFilters() {
-        VikingFilterFrame filterFrame = new VikingFilterFrame(vikingService);
+        VikingFilterFrame filterFrame = new VikingFilterFrame(vikingFilterService);
         filterFrame.setVisible(true);
     }
     

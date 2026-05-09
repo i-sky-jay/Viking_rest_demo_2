@@ -109,21 +109,27 @@ public class VikingRepository {
     ) {
         List<VikingEntity> allVikings = findAll();
 
+        // Лямбда-функция: viking -> true (начальное условие)
         Predicate<VikingEntity> ageFilter = viking -> true;
 
         if (lessThan != null) {
+            // Лямбда-функция: v -> v.age() < lessThan
             ageFilter = ageFilter.and(v -> v.age() < lessThan);
         }
         if (greaterThan != null) {
+            // Лямбда-функция: v -> v.age() > greaterThan
             ageFilter = ageFilter.and(v -> v.age() > greaterThan);
         }
         if (inRangeStart != null && inRangeEnd != null) {
+            // Лямбда-функция: v -> v.age() >= inRangeStart && v.age() <= inRangeEnd
             ageFilter = ageFilter.and(v -> v.age() >= inRangeStart && v.age() <= inRangeEnd);
         }
         if (outOfRangeStart != null && outOfRangeEnd != null) {
+            // Лямбда-функция: v -> v.age() < outOfRangeStart || v.age() > outOfRangeEnd
             ageFilter = ageFilter.and(v -> v.age() < outOfRangeStart || v.age() > outOfRangeEnd);
         }
 
+        // Лямбда-функция: .filter(ageFilter)
         return allVikings.stream()
                 .filter(ageFilter)
                 .count();
@@ -135,15 +141,19 @@ public class VikingRepository {
     ) {
         List<VikingEntity> allVikings = findAll();
 
+        // Лямбда-функция: viking -> true
         Predicate<VikingEntity> appearanceFilter = viking -> true;
 
         if (beardStyle != null) {
+            // Лямбда-функция: v -> v.beardStyle() == beardStyle
             appearanceFilter = appearanceFilter.and(v -> v.beardStyle() == beardStyle);
         }
         if (hairColor != null) {
+            // Лямбда-функция: v -> v.hairColor() == hairColor
             appearanceFilter = appearanceFilter.and(v -> v.hairColor() == hairColor);
         }
 
+        // Лямбда-функция: .filter(appearanceFilter)
         return allVikings.stream()
                 .filter(appearanceFilter)
                 .count();

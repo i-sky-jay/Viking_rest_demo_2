@@ -9,7 +9,7 @@ import ru.mephi.vikingdemo.model.BeardStyle;
 import ru.mephi.vikingdemo.model.HairColor;
 import ru.mephi.vikingdemo.model.Viking;
 import ru.mephi.vikingdemo.service.VikingService;
-import ru.mephi.vikingdemo.service.VikingStatService;
+import ru.mephi.vikingdemo.service.VikingFilterService;
 
 import java.util.List;
 
@@ -19,12 +19,12 @@ import java.util.List;
 public class VikingController {
 
     private final VikingService vikingService;
-    private final VikingStatService vikingStatService;
+    private final VikingFilterService vikingFilterService;
     private VikingListener vikingListener;
 
-    public VikingController(VikingService vikingService, VikingStatService vikingStatService, VikingListener vikingListener) {
+    public VikingController(VikingService vikingService, VikingFilterService vikingFilterService, VikingListener vikingListener) {
         this.vikingService = vikingService;
-        this.vikingStatService = vikingStatService;
+        this.vikingFilterService = vikingFilterService;
         this.vikingListener = vikingListener;
     }
 
@@ -91,7 +91,7 @@ public class VikingController {
             @RequestParam(required = false) Integer outOfRangeEnd
     ) {
         System.out.println("GET /api/vikings/stats/count-by-age called");
-        return vikingStatService.getCountByAge(lessThan, greaterThan, inRangeStart, inRangeEnd, outOfRangeStart, outOfRangeEnd);
+        return vikingFilterService.getCountByAge(lessThan, greaterThan, inRangeStart, inRangeEnd, outOfRangeStart, outOfRangeEnd);
     }
 
     @GetMapping("/stats/count-by-appearance")
@@ -105,7 +105,7 @@ public class VikingController {
             @RequestParam(required = false) HairColor hairColor
     ) {
         System.out.println("GET /api/vikings/stats/count-by-appearance called");
-        return vikingStatService.getCountByAppearance(beardStyle, hairColor);
+        return vikingFilterService.getCountByAppearance(beardStyle, hairColor);
     }
 
     @GetMapping("/stats/count-by-axes")
@@ -116,7 +116,7 @@ public class VikingController {
     })
     public long getCountByAxes() {
         System.out.println("GET /api/vikings/stats/count-by-axes called");
-        return vikingStatService.getCountByAxes();
+        return vikingFilterService.getCountByAxes();
     }
 
     @GetMapping("/test")
@@ -149,7 +149,7 @@ public class VikingController {
     })
     public Viking getMaxIdViking() {
         System.out.println("GET /api/vikings/ids/max called");
-        return vikingService.findMaxIdViking();
+        return vikingFilterService.findMaxIdViking();
     }
 
     @GetMapping("/ids/even")
@@ -160,6 +160,6 @@ public class VikingController {
     })
     public List<Viking> getEvenIdVikings() {
         System.out.println("GET /api/vikings/ids/even called");
-        return vikingService.findEvenIdVikings();
+        return vikingFilterService.findEvenIdVikings();
     }
 }

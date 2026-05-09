@@ -71,6 +71,7 @@ public class VikingStorage {
 
     @Transactional
     public void deleteByName(String name) {
+        // Лямбда-функции: e -> e.getValue().name().equals(name) и e -> deleteById(e.getKey())
         findAllWithIds().entrySet().stream()
                 .filter(e -> e.getValue().name().equals(name))
                 .findFirst()
@@ -78,6 +79,7 @@ public class VikingStorage {
     }
 
     public Viking findByName(String name) {
+        // Лямбда-функция: v -> v.name().equals(name)
         return findAll().stream()
                 .filter(v -> v.name().equals(name))
                 .findFirst()
@@ -93,6 +95,7 @@ public class VikingStorage {
     public long countByAxes() {
         List<Viking> allVikings = findAll();
 
+        // Лямбда-функции: viking -> ... и item -> "Axe".equalsIgnoreCase(item.name())
         return allVikings.stream()
                 .filter(viking -> {
                     long axeCount = viking.equipment().stream()
