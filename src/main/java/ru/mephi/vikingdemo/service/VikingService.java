@@ -5,9 +5,10 @@ import ru.mephi.vikingdemo.model.Viking;
 import ru.mephi.vikingdemo.model.VikingInterface;
 import ru.mephi.vikingdemo.repository.VikingStorage;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
@@ -39,11 +40,9 @@ public class VikingService {
     }
 
     public List<Viking> createRandomVikings(int count) {
-        List<Viking> created = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            created.add(createRandomViking());
-        }
-        return created;
+        return Stream.generate(() -> createRandomViking())
+                .limit(count)
+                .toList();
     }
 
     public void deleteById(int id) {
